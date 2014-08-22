@@ -17,5 +17,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/action_websearch"
         android:icon="@drawable/ic_action_search"
-        android:showAsAction="ifRoom|withText" />
+        android:showAsAction="ifRoom" />
+    <item android:id="@+id/overflow_settings"
+        android:title="@string/settings" />
+    <item android:id="@+id/overflow_reset"
+        android:title="@string/reset" />
+
 </menu>

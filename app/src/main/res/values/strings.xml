@@ -17,6 +17,7 @@
 <resources>
     <string name="app_name">Android L App</string>
     <string-array name="nav_drawer_tabs">
+        <item>Planet Express</item>
         <item>Barbara Wong</item>
         <item>Lia Zadoyan</item>
         <item>David Algar</item>
@@ -32,4 +33,7 @@
     <string name="action_websearch">Web search</string>
     <string name="app_not_available">Sorry, there\'s no web browser available</string>
     <string name="planet_express_title">Planet Express</string>
+
+    <string name="settings">Settings</string>
+    <string name="reset">Reset</string>
 </resources>

@@ -15,30 +15,37 @@
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="64dp" >
 
 
 <ImageView
         android:id="@+id/image1"
         android:layout_width="@dimen/profile_image_size"
         android:layout_height="@dimen/profile_image_size"
-        android:shape="oval"
-        android:background="#AAAAAA"
-        android:gravity="center_horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+        android:background="@drawable/circle"
+        android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:layout_alignParentStart="false"
+    android:layout_centerVertical="true"
+    android:layout_alignParentBottom="false"
+    android:layout_alignParentLeft="false"
+    android:layout_alignParentTop="false"
+    android:layout_marginLeft="10dp" />
 
 <TextView
     android:id="@android:id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceListItemSmall"
-    android:gravity="center_vertical"
-    android:paddingLeft="32dp"
-    android:paddingRight="16dp"
+     android:paddingStart="64dp"
+    android:paddingEnd="16dp"
     android:textColor="#fff"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"/>
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:gravity="center_vertical"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentBottom="true"
+    android:textSize="20sp"
+    android:singleLine="true" />
 
 </RelativeLayout>

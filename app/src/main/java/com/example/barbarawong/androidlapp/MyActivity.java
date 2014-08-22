@@ -3,16 +3,22 @@ package com.example.barbarawong.androidlapp;
 
 import java.util.Locale;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
+import android.graphics.Outline;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,8 +27,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 
@@ -30,7 +39,10 @@ public class MyActivity extends Activity {
 
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
+    private ListView mContentList;
+    private GridView mGridView;
     private ActionBarDrawerToggle mDrawerToggle;
+    String options[]={"One","Two","Three"};
 
     private CharSequence mDrawerTitle;
     private CharSequence mTitle;
@@ -46,6 +58,34 @@ public class MyActivity extends Activity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.left_drawer);
 
+        mContentList = (ListView) findViewById(R.id.floating_content_menu);
+
+        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,options);
+        mContentList.setAdapter(adapter);
+
+        // Register the ListView  for Context menu
+        registerForContextMenu(mContentList);
+
+        ActionBar actionBar = getActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(Color.parseColor("#3399FF"));
+        actionBar.setBackgroundDrawable(colorDrawable);
+
+        Button fab = (Button) findViewById(R.id.fabbutton);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v){
+                Toast.makeText(getApplicationContext(),"Fab button pressed",Toast.LENGTH_LONG).show();
+            }
+        });
+
+        Outline mOutlineCircle;
+        int shapeSize = getResources().getDimensionPixelSize(R.dimen.fab_button_size);
+        mOutlineCircle = new Outline();
+        mOutlineCircle.setRoundRect(0, 0, shapeSize, shapeSize, shapeSize / 2);
+
+        fab.setOutline(mOutlineCircle);
+        fab.setClipToOutline(true);
+
         // set a custom shadow that overlays the main content when the drawer opens
         mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
 
@@ -58,7 +98,7 @@ public class MyActivity extends Activity {
         // enable ActionBar app icon to behave as action to toggle nav drawer
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setTitle(R.string.planet_express_title);
+        //getActionBar().setTitle(R.string.planet_express_title);
 
         // ActionBarDrawerToggle ties together the the proper interactions
         // between the sliding drawer and the action bar app icon
@@ -75,11 +115,12 @@ public class MyActivity extends Activity {
             }
 
             public void onDrawerOpened(View drawerView) {
-                getActionBar().setTitle(mDrawerTitle);
+                getActionBar().setTitle(mTitle);
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
 
         if (savedInstanceState == null) {
             selectItem(0);
@@ -99,6 +140,7 @@ public class MyActivity extends Activity {
         // If the nav drawer is open, hide action items related to the content view
         boolean drawerOpen = mDrawerLayout.isDrawerOpen(mDrawerList);
         menu.findItem(R.id.action_websearch).setVisible(!drawerOpen);
+        //menu.findItem(R.id.).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -167,6 +209,11 @@ public class MyActivity extends Activity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         mDrawerToggle.syncState();
+
+        mDrawerLayout.openDrawer(Gravity.START);
+        getActionBar().setDisplayShowTitleEnabled(true);
+        getActionBar().setTitle(R.string.planet_express_title);
+
     }
 
     @Override
@@ -176,7 +223,28 @@ public class MyActivity extends Activity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    /**
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        menu.setHeaderTitle("Select Option");
+        menu.add(0, v.getId(), 0, "Call");//groupId, itemId, order, title
+        menu.add(0, v.getId(), 0, "SMS");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item){
+        if(item.getTitle()=="Call"){
+            Toast.makeText(getApplicationContext(),"calling code",Toast.LENGTH_LONG).show();
+        }
+        else if(item.getTitle()=="SMS"){
+            Toast.makeText(getApplicationContext(),"sending sms code",Toast.LENGTH_LONG).show();
+        }else{
+            return false;
+        }
+        return true;
+    }
+
+/**
      * Fragment that appears in the "content_frame", shows a planet
      */
     public static class PlanetFragment extends Fragment {
