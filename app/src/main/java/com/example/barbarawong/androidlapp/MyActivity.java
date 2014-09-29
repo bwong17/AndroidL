@@ -78,7 +78,7 @@ public class MyActivity extends Activity {
             }
         });
 
-        Outline mOutlineCircle;
+                Outline mOutlineCircle;
         int shapeSize = getResources().getDimensionPixelSize(R.dimen.fab_button_size);
         mOutlineCircle = new Outline();
         mOutlineCircle.setRoundRect(0, 0, shapeSize, shapeSize, shapeSize / 2);
